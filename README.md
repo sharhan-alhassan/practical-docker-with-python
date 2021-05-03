@@ -81,22 +81,46 @@ You can decide to be specific and choose an image with the tag. For instance, le
 
 - By default, images are pulled from `docker hub`. In the event where you want to pull image fromm a differenct registry, apppend the prepend the name of the registry, colon, the port that it's been served, and the name of the image. Example, pulling an an nginx image from the registry `docker-local-registry` served on `port 4000`
 
-    docker pull docker-local-registry:4000/
+    `docker pull docker-local-registry:4000/`
     
 - If the registry needs authentication, you can do that:
 
-    docker login docker-local-registry:4000
+    `docker login docker-local-registry:4000`
 
 - To run a container:
 
-    docker run -p 80:80 nginx
+    `docker run -p 80:80 nginx`
 
 The `-p` flag is telling docker to `publish` the exposed port from the Docker container to the host
 
 - To test if the server is working:
 
-    curl http://localhost:80
+    `curl http://localhost:80`
 
+- To stop the container
+    `docker stop <container-id>`
+
+- If the container refuses to stop, you can use the `kill` command
+    `docker kill <container-id>`
+
+- To confirm no container is running:
+    `docker ps`
+
+- `docker ps` only shows tha active/running containers. So to see or list all containers, use the command:
+    `docker ps -a`
+
+- You can remove a container by this command:
+    `docker rm <container-id>` Example:
+    `docker rum fadere34d5f`
+    The ID pops up after success!
+    `fadere34d5f`
+
+- To confirm the container was indeed removed:
+    `docker ps -a`
+
+- Similarly, you can also remove an `image`
+    `docker rmi <image-id>`
+*NB: In order to remove an image, all containers making reference to it must all be removed first else it'll throw an error*
 
 
 
