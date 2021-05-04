@@ -35,8 +35,11 @@ The visibility level of images can either be set to `public` or `private`. Publi
 `Dockerfile:` A set of instructions to tell the Docker how to build the image. Some typical instructions are:
 
     FROM: instruction to tell what the base image is 
+
     ENV: instruction to pass an environment variable
+
     RUN: instruction to run some shell commands(eg; install dependent programs not available in the base image)
+
     CMD: or an ENTRYPOINT instruction that tells Docker which executable to run when a container is started. 
 
 `Docker engine:` This is the core part of Docker. This is the `client-server` application that provides the platform, runtime, and tooling for managing Docker images, containers, etc. `Docker engine` provides the following:
@@ -116,7 +119,7 @@ The `-p` flag is telling docker to `publish` the exposed port from the Docker co
 - You can remove a container by this command:
 
     `docker rm <container-id>` Example:
-    `docker rum fadere34d5f`
+    `docker rm fadere34d5f`
     The ID pops up after success!
     `fadere34d5f`
 
@@ -128,7 +131,123 @@ The `-p` flag is telling docker to `publish` the exposed port from the Docker co
 
     `docker rmi <image-id>`
 
+
 *NB: In order to remove an image, all containers making reference to it must all be removed first else it'll throw an error*
+
+
+### A Python Bot App for Telegram
+- The Python app is a simple interface using Telegram Messenger to fetch the latest 10 stories from Reddit. 
+- Using Telegram, we will subscribe to subreddits and the web application will check the subreddits for new posts.
+- The new posts will be posted on the Bot interface which will then deliver the message to Telegram Messenger, when requested by the user. 
+- Telegram's Bot creation interface is called `BotFather`
+- Type BotFather in the search, type /newbot, type name, and username with `Bot` or `_bot` at the end
+- Type the following the `token` to test if everything is working:
+
+### Installing dependencies for Newsbot
+- We need the following dependencies:
+    1. praw - python reddit API wrapper
+    2. request - for making standard HTTP requests
+
+- `pip3 install -r requirements.txt`
+- `-r` stands for required packages
+
+    `curl https://api.telegram.org/bot<token>/getMe`
+
+
+### Dockerfile:
+- Dockerfile is an automated way to `build` Docker images. The Dockerfile contains series of steps required to build an image. 
+An example Dockerfile instructions for a build process:
+
+    FROM ubuntu:latest
+    LABEL author="samhassan"
+    LABEL description="sample dockerfile"
+    RUN apt-get install python 
+    COPY app.py
+    CMD python app.py
+
+### Dockerignore:
+- Just like `gitignore`, it allows you to define files which are exempt from being transferred during the build process. 
+- The ignore files are in `.dockerignore`
+- Anything starting with `#` is a comment and ignored. 
+- Example of a `.dockerignore` file:
+
+    /temp
+    .git
+    # comment
+
+- Starting a container from its image ID can be headache. It's helpful to add a `tag` to the image and rather use it in running
+
+- create tag
+
+    docker tag <image_id> <tag_name>
+    docker tage 34feregrt34 sam:django-app
+
+- In the build process use this:
+
+    docker build -t sam:django-app
+
+### Dockerfile Instructions:
+- `FROM`: Tells docker engine which base image to use for subsequent instructions. It goes with a `tag`. If tag is not added, it takes the `latest` of the image. It's syntax
+
+    FROM <image>
+Or  
+    FROM <image>:<tag>
+
+- `WORKDIR`: This instruction sets the current working directory for `RUN`, `CMD`, `ENTRYPOINT`, `COPY` and `ADD` instructions. Syntax is:
+
+    WORKDIR pathto/directory
+
+- `ADD` and `COPY`:
+Allow you to transfer files from the host to the container's filesystem.
+`COPY` supports basic copying of files to the container, while `ADD` has support for features like `tarball auto extraction` and `remote URL support`. 
+
+Syntax for both instrunctions:
+
+    ADD <source> <destination>
+    COPY <source> <destination>
+
+For dockerfiles that are built for Linux containers, an extra parameter `--chown` flag is added to change the owner/group of the files being added to the container.
+
+Syntax: 
+
+    ADD --chown=<user>:<group> <source> <destination>
+    COPY --chown=<user>:<group> <source> <destination>
+
+- `ADD` and `COPY` support wildcards too:
+This command will copy all files with extension `.py` to the `apps` directory of the image
+
+    COPY *.py apps
+
+- `RUN`: It'll execute all commands in a new layer on top of the current image and create a new layer that is available for the next steps in the Dockerfile. 
+    - Two forms of `RUN`:
+
+    RUN <command> (know as the shell form)
+
+    RUN ['executable', 'parameter 1', parameter 2'] (know as exec form)
+
+
+- `CMD` and `ENTRYPOINT`: These instructions define which command is executed when running a container. Syntax for both are:
+
+    CMD ["executable", "param1", "param2"] (exec form)
+    CMD ["param1", "param2"] (as default parameters to ENTRYPOINT)
+
+- `VOLUME`: This instruction tells Docker to create a directory on the host and mount it to a path specified in the instruction.
+Example:
+
+    VOLUME varlogs/nginx
+
+
+- `EXPOSE`: Tells Docker that the container listens for the specified network ports at runtime. Syntax:
+
+    EXPOSE <port> [<port>/<protocol>...]
+
+    //To expose port 80
+    EXPOSE 80
+
+    //To expose port 8000 on TCP
+    EXPOSE 8000/tcp
+
+
 
 
 
