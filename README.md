@@ -158,12 +158,14 @@ The `-p` flag is telling docker to `publish` the exposed port from the Docker co
 - Dockerfile is an automated way to `build` Docker images. The Dockerfile contains series of steps required to build an image. 
 An example Dockerfile instructions for a build process:
 
+```
     FROM ubuntu:latest
     LABEL author="samhassan"
     LABEL description="sample dockerfile"
     RUN apt-get install python 
     COPY app.py
     CMD python app.py
+```
 
 ### Dockerignore:
 - Just like `gitignore`, it allows you to define files which are exempt from being transferred during the build process. 
@@ -171,27 +173,27 @@ An example Dockerfile instructions for a build process:
 - Anything starting with `#` is a comment and ignored. 
 - Example of a `.dockerignore` file:
 
-    /temp
-    .git
-    # comment
+`/temp`
+`.git`
+`# comment`
 
 - Starting a container from its image ID can be headache. It's helpful to add a `tag` to the image and rather use it in running
 
 - create tag
 
-    docker tag <image_id> <tag_name>
-    docker tage 34feregrt34 sam:django-app
+`docker tag <image_id> <tag_name>`
+`docker tage 34feregrt34 sam:django-app`
 
 - In the build process use this:
 
-    docker build -t sam:django-app
+`docker build -t sam:django-app`
 
 ### Dockerfile Instructions:
 - `FROM`: Tells docker engine which base image to use for subsequent instructions. It goes with a `tag`. If tag is not added, it takes the `latest` of the image. It's syntax
 
-    FROM <image>
+`FROM <image>`
 Or  
-    FROM <image>:<tag>
+`FROM <image>:<tag>`
 
 - `WORKDIR`: This instruction sets the current working directory for `RUN`, `CMD`, `ENTRYPOINT`, `COPY` and `ADD` instructions. Syntax is:
 
@@ -216,36 +218,39 @@ Syntax:
 - `ADD` and `COPY` support wildcards too:
 This command will copy all files with extension `.py` to the `apps` directory of the image
 
-    COPY *.py apps
+`COPY *.py apps`
 
 - `RUN`: It'll execute all commands in a new layer on top of the current image and create a new layer that is available for the next steps in the Dockerfile. 
-    - Two forms of `RUN`:
+- Two forms of `RUN`:
 
-    RUN <command> (know as the shell form)
+`RUN <command> (know as the shell form)`
 
-    RUN ['executable', 'parameter 1', parameter 2'] (know as exec form)
+`RUN ['executable', 'parameter 1', parameter 2'] (know as exec form)`
 
 
 - `CMD` and `ENTRYPOINT`: These instructions define which command is executed when running a container. Syntax for both are:
 
-    CMD ["executable", "param1", "param2"] (exec form)
-    CMD ["param1", "param2"] (as default parameters to ENTRYPOINT)
+`CMD ["executable", "param1", "param2"] (exec form)`
+    
+`CMD ["param1", "param2"] (as default parameters to ENTRYPOINT)`
 
 - `VOLUME`: This instruction tells Docker to create a directory on the host and mount it to a path specified in the instruction.
 Example:
 
-    VOLUME varlogs/nginx
+`VOLUME varlogs/nginx`
 
 
 - `EXPOSE`: Tells Docker that the container listens for the specified network ports at runtime. Syntax:
 
-    EXPOSE <port> [<port>/<protocol>...]
+`EXPOSE <port> [<port>/<protocol>...]`
 
-    //To expose port 80
-    EXPOSE 80
+//To expose port 80
 
-    //To expose port 8000 on TCP
-    EXPOSE 8000/tcp
+`EXPOSE 80`
+
+//To expose port 8000 on TCP
+
+`EXPOSE 8000/tcp`
 
 
 
